@@ -16,13 +16,13 @@ public class GameManager : MonoBehaviour
 
 
     private CameraController _cameraControllerSc;
-    private GameObject diceObj;
-
+    private bool diceActive;
 
     // Start is called before the first frame update
     void Awake()
     {
         _cameraControllerSc = cameraPlatform.GetComponent<CameraController>();
+        diceActive = dice.activeSelf;
     }
 
     // Update is called once per frame
@@ -35,12 +35,12 @@ public class GameManager : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (diceObj != null && Input.GetMouseButton(0) && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, tilesLayerMask))
+        if (diceActive && Input.GetMouseButton(0) && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, tilesLayerMask))
         {
             moveDice(hit.collider.transform.position);
         }
         // Rotate platform if the mouse button 0 held down.
-        else if (Input.GetMouseButton(0))
+        else if (!diceActive && Input.GetMouseButton(0))
         {
             _cameraControllerSc.SetCameraRotation();
         }
@@ -59,15 +59,7 @@ public class GameManager : MonoBehaviour
 
     public void Dice()
     {
-        if(diceObj != null)
-        {
-            diceObj.SetActive(false);
-            diceObj = null;
-        }
-        else
-        {
-            diceObj = dice;
-            diceObj.SetActive(true);
-        }
+        dice.SetActive(!dice.activeSelf);
+        diceActive = dice.activeSelf;
     }
 }
