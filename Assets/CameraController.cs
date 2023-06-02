@@ -16,13 +16,17 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        // Rotate platform if mouse button 0 held down.
+        // Rotate platform if the mouse button 0 held down.
         if (Input.GetMouseButton(0))
         {
             SetCameraRotation();
         }
 
-        SetZoom();
+        // Zoom if the mouse wheel is turning
+        if(Input.GetAxis("Mouse ScrollWheel") != 0)
+        {
+            SetZoom();
+        }
     }
 
     // Rotate platform
