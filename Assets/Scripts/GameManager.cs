@@ -33,11 +33,11 @@ public class GameManager : MonoBehaviour
 
     void InputController()
     {
+        // Move dice if the dice is active and mouse0/finger is pressed on tiles
         RaycastHit hit;
-
         if (diceActive && Input.GetMouseButton(0) && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, tilesLayerMask))
         {
-            moveDice(hit.collider.transform.position);
+            MoveDice(hit.collider.transform.position);
         }
         // Rotate platform if the mouse button 0 held down.
         else if (!diceActive && Input.GetMouseButton(0))
@@ -52,11 +52,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void moveDice(Vector3 hitPoint)
+    void MoveDice(Vector3 hitPoint)
     {
         dice.transform.position = new Vector3(hitPoint.x, dice.transform.position.y, hitPoint.z);
     }
 
+    // Hide/Show dice
     public void Dice()
     {
         dice.SetActive(!dice.activeSelf);
