@@ -9,28 +9,18 @@ public class CameraController : MonoBehaviour
 
     private GameObject _mainCam;
 
-    private void Start()
+    Vector3 _defRotation;
+    float _defZoomZ;
+
+    private void Awake()
     {
         _mainCam = transform.GetChild(0).gameObject;
-    }
-
-    private void Update()
-    {
-        // Rotate platform if the mouse button 0 held down.
-        if (Input.GetMouseButton(0))
-        {
-            SetCameraRotation();
-        }
-
-        // Zoom if the mouse wheel is turning
-        if(Input.GetAxis("Mouse ScrollWheel") != 0)
-        {
-            SetZoom();
-        }
+        _defRotation = transform.localEulerAngles;
+        _defZoomZ = _mainCam.transform.localPosition.z;
     }
 
     // Rotate platform
-    void SetCameraRotation()
+    public void SetCameraRotation()
     {
         // Get mouse axis's move amounts
         float mouseX = Input.GetAxis("Mouse X");
@@ -46,7 +36,7 @@ public class CameraController : MonoBehaviour
     }
 
     // Move camera on local z axis according to scroll input
-    void SetZoom()
+    public void SetZoom()
     {
         // Get scroll wheel value
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
@@ -56,5 +46,11 @@ public class CameraController : MonoBehaviour
 
         // Move the camera
         _mainCam.transform.localPosition += new Vector3(0f, 0f, movementAmount);
+    }
+
+    public void ResetCamPosition()
+    {
+        _mainCam.transform.localPosition = Vector3.forward * _defZoomZ;
+        transform.localEulerAngles = _defRotation;
     }
 }
