@@ -7,40 +7,50 @@ public class CameraController : MonoBehaviour
     public float rotationSpeed = 5f; // Rotation speed
     public float zoomSpeed = 5f; // Zoom speed
 
-    GameObject camera;
-    private Vector3 initialRotation;
+    private GameObject _mainCam;
 
     private void Start()
     {
-        initialRotation = transform.localEulerAngles;
-        camera = transform.GetChild(0).gameObject;
+        _mainCam = transform.GetChild(0).gameObject;
     }
 
     private void Update()
     {
+        // Rotate platform if mouse button 0 held down.
         if (Input.GetMouseButton(0))
         {
-            float mouseX = Input.GetAxis("Mouse X"); 
-            float mouseY = Input.GetAxis("Mouse Y"); 
-
-            // Yatay dönüþ hesaplamasý
-            float rotationY = mouseX * rotationSpeed;
-            Vector3 yRotation = new Vector3(0f, rotationY, 0f);
-
-            // Dikey dönüþ hesaplamasý
-            float rotationX = -mouseY * rotationSpeed;
-            Vector3 xRotation = new Vector3(rotationX, 0f, 0f);
-
-            // Sadece x ve y rotasyonlarýný güncelleme
-            Vector3 finalRotation = transform.localEulerAngles + yRotation + xRotation;
-
-            transform.localEulerAngles = finalRotation;
+            SetCameraRotation();
         }
 
-        float scrollInput = Input.GetAxis("Mouse ScrollWheel"); // Fare tekerleði hareketi
+        SetZoom();
+    }
 
-        // Tekerlek hareketine baðlý olarak local z pozisyonunu güncelleme
+    // Rotate platform
+    void SetCameraRotation()
+    {
+        // Get mouse axis's move amounts
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
+
+        // Set rotation amounts
+        float rotationY = mouseX * rotationSpeed;
+        float rotationX = -mouseY * rotationSpeed;
+        Vector3 newRotation = new Vector3(rotationX, rotationY, 0f);
+
+        // Rotate the platform
+        transform.localEulerAngles += newRotation;
+    }
+
+    // Move camera on local z axis according to scroll input
+    void SetZoom()
+    {
+        // Get scroll wheel value
+        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+
+        // Set move amount
         float movementAmount = scrollInput * zoomSpeed * Time.deltaTime;
-        camera.transform.localPosition += new Vector3(0f, 0f, movementAmount);
+
+        // Move the camera
+        _mainCam.transform.localPosition += new Vector3(0f, 0f, movementAmount);
     }
 }

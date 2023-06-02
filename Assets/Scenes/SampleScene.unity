@@ -2235,7 +2235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 5
-  zoomSpeed: 5
+  zoomSpeed: 500
 --- !u!1001 &215603752
 PrefabInstance:
   m_ObjectHideFlags: 0
