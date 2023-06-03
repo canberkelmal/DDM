@@ -13,16 +13,18 @@ public class GameManager : MonoBehaviour
     public GameObject dice;
 
     public LayerMask tilesLayerMask;
+    public LayerMask UILayerMask;
 
 
     private CameraController _cameraControllerSc;
-    private bool diceActive;
+    private bool _diceActive;
+    private Vector3 _defDicePos = Vector3.up;
 
     // Start is called before the first frame update
     void Awake()
     {
         _cameraControllerSc = cameraPlatform.GetComponent<CameraController>();
-        diceActive = dice.activeSelf;
+        _diceActive = dice.activeSelf;
     }
 
     // Update is called once per frame
@@ -32,15 +34,9 @@ public class GameManager : MonoBehaviour
     }
 
     void InputController()
-    {
-        // Move dice if the dice is active and mouse0/finger is pressed on tiles
-        RaycastHit hit;
-        if (diceActive && Input.GetMouseButton(0) && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, tilesLayerMask))
-        {
-            MoveDice(hit.collider.transform.position);
-        }
+    {        
         // Rotate platform if the mouse button 0 held down.
-        else if (!diceActive && Input.GetMouseButton(0))
+        if (!_diceActive && Input.GetMouseButton(0))
         {
             _cameraControllerSc.SetCameraRotation();
         }
@@ -52,15 +48,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void MoveDice(Vector3 hitPoint)
-    {
-        dice.transform.position = new Vector3(hitPoint.x, dice.transform.position.y, hitPoint.z);
-    }
-
     // Hide/Show dice
     public void Dice()
     {
         dice.SetActive(!dice.activeSelf);
-        diceActive = dice.activeSelf;
+        _diceActive = dice.activeSelf;
     }
 }
