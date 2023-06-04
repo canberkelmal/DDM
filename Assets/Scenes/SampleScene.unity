@@ -11685,7 +11685,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1098037244
 PrefabInstance:
@@ -15642,8 +15642,8 @@ RectTransform:
   m_Children:
   - {fileID: 55044410}
   - {fileID: 1543956325}
-  m_Father: {fileID: 1699366048}
-  m_RootOrder: -1
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 45, y: -90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -15726,6 +15726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 330585546}
+  dice: {fileID: 1699366048}
 --- !u!1001 &1529155545
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16049,7 +16050,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1699366049}
         m_TargetAssemblyTypeName: DiceObjSc, Assembly-CSharp
-        m_MethodName: RotateDice
+        m_MethodName: ChangeDiceSpread
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18072,6 +18073,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6126d0cb493dac149b6bb2a5f3179f4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewCubes:
+  - {fileID: 6216345017006919952}
+  - {fileID: 186670464}
+  - {fileID: 1560934060}
+  - {fileID: 1783638467}
+  - {fileID: 7813074}
+  - {fileID: 1720061739}
   spreads:
     spread1:
     - {x: 0, y: 0.2, z: 0}
@@ -18083,8 +18091,8 @@ MonoBehaviour:
     spread2:
     - {x: 1, y: 0.2, z: 0}
     - {x: 0, y: 0.2, z: 0}
-    - {x: 1, y: 0.2, z: -1}
-    - {x: 1, y: 0.2, z: 1}
+    - {x: 0, y: 0.2, z: -1}
+    - {x: 0, y: 0.2, z: 1}
     - {x: 2, y: 0.2, z: 0}
     - {x: 3, y: 0.2, z: 0}
     spread3:
@@ -23254,7 +23262,7 @@ PrefabInstance:
     - target: {fileID: 7988128778578827359, guid: 329ad8a7829d44e488e90fafdbe53c91,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7988128778578827359, guid: 329ad8a7829d44e488e90fafdbe53c91,
         type: 3}
@@ -23333,10 +23341,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1720061739}
-    - targetCorrespondingSourceObject: {fileID: 7988128778578827359, guid: 329ad8a7829d44e488e90fafdbe53c91,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1521895220}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 197335686777278109, guid: 329ad8a7829d44e488e90fafdbe53c91,
         type: 3}

@@ -10,11 +10,10 @@ using System;
 public class DiceObjSc : MonoBehaviour
 {
     GameManager gameManager;
-    int spreadShape = 0;
-    
-    Transform[] previewCubes = new Transform[6];
+    int spreadShape = 0;    
     Vector3[][] previewPos = new Vector3[3][];
 
+    public Transform[] previewCubes = new Transform[6];
     public DiceSpreads spreads;
 
     [Serializable]
@@ -26,7 +25,8 @@ public class DiceObjSc : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); ;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        SetSpreadArray();
     }
 
     // Update is called once per frame
@@ -67,10 +67,18 @@ public class DiceObjSc : MonoBehaviour
             spreadShape = 0;
         }
 
-        switch(spreadShape)
-        {
-            //case 0:
+        Vector3[] setSpreadArray = previewPos[spreadShape];
 
+        for(int i = 0; i < setSpreadArray.Length; i++)
+        {
+            previewCubes[i].localPosition = setSpreadArray[i];
         }
+    }
+
+    void SetSpreadArray()
+    {
+        previewPos[0] = spreads.spread1;
+        previewPos[1] = spreads.spread2;
+        previewPos[2] = spreads.spread3;
     }
 }
