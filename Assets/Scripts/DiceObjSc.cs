@@ -6,12 +6,13 @@ using UnityEngine.UI;
 using static Unity.Burst.Intrinsics.Arm;
 using Sirenix.OdinInspector;
 using System;
+using Unity.VisualScripting;
 
 public class DiceObjSc : MonoBehaviour
 {
     GameManager gameManager;
-    int spreadShape = 0;    
-    Vector3[][] previewPos = new Vector3[3][];
+    int currentSpreadShape = 0;    
+    Vector3[][] previewPos;
 
     public Transform[] previewCubes = new Transform[6];
     public DiceSpreads spreads;
@@ -23,28 +24,35 @@ public class DiceObjSc : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        previewPos = new Vector3[typeof(DiceSpreads).GetFields().Length][];
         SetSpreadArray();
     }
 
     // Update is called once per frame
     void Update()
-    {
-        // Move dice if the dice is active and mouse0/finger is pressed on tiles
+    {        
         if (Input.GetMouseButton(0))
         {
-            if (!EventSystem.current.IsPointerOverGameObject())
+            GetMouse0Event();
+        }
+    }
+
+    // Move dice if the dice is active and mouse0/finger is pressed on tiles
+    void GetMouse0Event()
+    {
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100, gameManager.tilesLayerMask))
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, 100, gameManager.tilesLayerMask))
-                {
-                    MoveDice(hit.collider.transform.position);
-                }
+                MoveDice(hit.collider.transform.position);
             }
         }
+
     }
     void MoveDice(Vector3 hitPoint)
     {
@@ -58,16 +66,16 @@ public class DiceObjSc : MonoBehaviour
 
     public void ChangeDiceSpread()
     {
-        if(spreadShape < 2)
+        if(currentSpreadShape < 2)
         {
-            spreadShape++;
+            currentSpreadShape++;
         }
         else
         {
-            spreadShape = 0;
+            currentSpreadShape = 0;
         }
 
-        Vector3[] setSpreadArray = previewPos[spreadShape];
+        Vector3[] setSpreadArray = previewPos[currentSpreadShape];
 
         for(int i = 0; i < setSpreadArray.Length; i++)
         {
@@ -77,8 +85,9 @@ public class DiceObjSc : MonoBehaviour
 
     void SetSpreadArray()
     {
-        previewPos[0] = spreads.spread1;
-        previewPos[1] = spreads.spread2;
-        previewPos[2] = spreads.spread3;
+        for(int i = 0; i < previewPos.Length; i++)
+        {
+            previewPos[i] = (Vector3[])typeof(DiceSpreads).GetFields()[i].GetValue(spreads);
+        }
     }
 }
