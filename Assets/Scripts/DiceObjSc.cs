@@ -13,6 +13,7 @@ public class DiceObjSc : MonoBehaviour
     GameManager gameManager;
     int currentSpreadShape = 0;    
     Vector3[][] previewPos;
+    int numberOfSpreads;
 
     public Transform[] previewCubes = new Transform[6];
     public DiceSpreads spreads;
@@ -27,7 +28,8 @@ public class DiceObjSc : MonoBehaviour
     void Awake()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        previewPos = new Vector3[typeof(DiceSpreads).GetFields().Length][];
+        numberOfSpreads = typeof(DiceSpreads).GetFields().Length;
+        previewPos = new Vector3[numberOfSpreads][];
         SetSpreadArray();
     }
 
@@ -66,7 +68,7 @@ public class DiceObjSc : MonoBehaviour
 
     public void ChangeDiceSpread()
     {
-        if(currentSpreadShape < 2)
+        if(currentSpreadShape < numberOfSpreads - 1)
         {
             currentSpreadShape++;
         }
@@ -85,7 +87,7 @@ public class DiceObjSc : MonoBehaviour
 
     void SetSpreadArray()
     {
-        for(int i = 0; i < previewPos.Length; i++)
+        for(int i = 0; i < numberOfSpreads; i++)
         {
             previewPos[i] = (Vector3[])typeof(DiceSpreads).GetFields()[i].GetValue(spreads);
         }
