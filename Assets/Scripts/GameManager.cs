@@ -36,7 +36,11 @@ public class GameManager : MonoBehaviour
     void InputController()
     {        
         // Rotate platform if the mouse button 0 held down.
-        if (!_diceActive && Input.GetMouseButton(0))
+        /*if (!_diceActive && Input.GetMouseButton(0))
+        {
+            _cameraControllerSc.SetCameraRotation();
+        }*/
+        if (Input.GetMouseButton(1))
         {
             _cameraControllerSc.SetCameraRotation();
         }
