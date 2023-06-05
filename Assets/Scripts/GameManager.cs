@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
 
     private CameraController _cameraControllerSc;
+    private DiceObjSc _diceSc;
     private bool _diceActive;
     private Vector3 _defDicePos = Vector3.up;
 
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         _cameraControllerSc = cameraPlatform.GetComponent<CameraController>();
+        _diceSc = dice.GetComponent<DiceObjSc>();
         _diceActive = dice.activeSelf;
     }
 
@@ -34,15 +36,21 @@ public class GameManager : MonoBehaviour
     }
 
     void InputController()
-    {        
+    {
         // Rotate platform if the mouse button 0 held down.
         /*if (!_diceActive && Input.GetMouseButton(0))
         {
             _cameraControllerSc.SetCameraRotation();
         }*/
+        if (_diceActive && Input.GetMouseButton(0))
+        {
+            _diceSc.GetMouse0Event();
+        }
+
         if (Input.GetMouseButton(1))
         {
             _cameraControllerSc.SetCameraRotation();
+            _diceSc.diceCanvasSc.GetDiceCamMoveEvent();
         }
 
         // Zoom if the mouse wheel is turning

@@ -14,6 +14,7 @@ public class DiceObjSc : MonoBehaviour
     int currentSpreadShape = 0;    
     Vector3[][] previewPos;
     int numberOfSpreads;
+    public DiceCanvasSc diceCanvasSc;
 
     public Transform[] previewCubes = new Transform[6];
     public DiceSpreads spreads;
@@ -33,22 +34,14 @@ public class DiceObjSc : MonoBehaviour
         SetSpreadArray();
     }
 
-    // Update is called once per frame
-    void Update()
-    {        
-        if (Input.GetMouseButton(0))
-        {
-            GetMouse0Event();
-        }
-    }
-
     // Move dice if the dice is active and mouse0/finger is pressed on tiles
-    void GetMouse0Event()
+    public void GetMouse0Event()
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
+            diceCanvasSc.GetDiceCamMoveEvent();
             if (Physics.Raycast(ray, out hit, 100, gameManager.tilesLayerMask))
             {
                 MoveDice(hit.collider.transform.position);
@@ -64,6 +57,17 @@ public class DiceObjSc : MonoBehaviour
     public void RotateDice()
     {
         transform.localEulerAngles -= Vector3.up * 90f;
+    }
+
+    public void MirrorDice()
+    {
+        Vector3[] setSpreadArray = previewPos[currentSpreadShape];
+
+        for (int i = 0; i < setSpreadArray.Length; i++)
+        {
+            setSpreadArray[i].z *= -1;
+            previewCubes[i].localPosition = setSpreadArray[i];
+        }
     }
 
     public void ChangeDiceSpread()
